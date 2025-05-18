@@ -166,7 +166,7 @@
             // 
             // dgvQuanLiSach
             // 
-            this.dgvQuanLiSach.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvQuanLiSach.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dgvQuanLiSach.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQuanLiSach.Location = new System.Drawing.Point(44, 98);
             this.dgvQuanLiSach.Name = "dgvQuanLiSach";
