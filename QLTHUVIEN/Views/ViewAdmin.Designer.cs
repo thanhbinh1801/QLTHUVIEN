@@ -58,6 +58,13 @@
             this.dgvDSSDDM = new System.Windows.Forms.DataGridView();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.dgvLichSuMuonTra = new System.Windows.Forms.DataGridView();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.dgvDSMSQH = new System.Windows.Forms.DataGridView();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.dgvTaiKhoan = new System.Windows.Forms.DataGridView();
+            this.btnXoaUser = new System.Windows.Forms.Button();
+            this.btnTimKiemUser = new System.Windows.Forms.Button();
+            this.txtTimKiemUser = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.lbUser = new System.Windows.Forms.Label();
             this.btnDangXuat = new System.Windows.Forms.Button();
@@ -77,6 +84,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDSSDDM)).BeginInit();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLichSuMuonTra)).BeginInit();
+            this.tabPage9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDSMSQH)).BeginInit();
+            this.tabPage8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTaiKhoan)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -95,6 +106,7 @@
             this.Sách.Controls.Add(this.tabPage2);
             this.Sách.Controls.Add(this.tabPage5);
             this.Sách.Controls.Add(this.tabPage3);
+            this.Sách.Controls.Add(this.tabPage8);
             this.Sách.Controls.Add(this.tabPage4);
             this.Sách.Location = new System.Drawing.Point(3, 3);
             this.Sách.Name = "Sách";
@@ -166,7 +178,11 @@
             // 
             // dgvQuanLiSach
             // 
+<<<<<<< Updated upstream
             this.dgvQuanLiSach.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+=======
+            this.dgvQuanLiSach.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+>>>>>>> Stashed changes
             this.dgvQuanLiSach.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQuanLiSach.Location = new System.Drawing.Point(44, 98);
             this.dgvQuanLiSach.Name = "dgvQuanLiSach";
@@ -175,7 +191,6 @@
             this.dgvQuanLiSach.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvQuanLiSach.Size = new System.Drawing.Size(1057, 349);
             this.dgvQuanLiSach.TabIndex = 32;
-            this.dgvQuanLiSach.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvQuanLiSach_CellFormatting_1);
             // 
             // label4
             // 
@@ -325,6 +340,7 @@
             this.btnTimKiemTheLoai.TabIndex = 34;
             this.btnTimKiemTheLoai.Text = "Tìm Kiếm";
             this.btnTimKiemTheLoai.UseVisualStyleBackColor = true;
+            this.btnTimKiemTheLoai.Click += new System.EventHandler(this.btnTimKiemTheLoai_Click);
             // 
             // textBox2
             // 
@@ -348,6 +364,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
+            this.tabControl1.Controls.Add(this.tabPage9);
             this.tabControl1.Location = new System.Drawing.Point(32, 6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -389,6 +406,7 @@
             // 
             // dgvLichSuMuonTra
             // 
+            this.dgvLichSuMuonTra.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvLichSuMuonTra.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLichSuMuonTra.Location = new System.Drawing.Point(72, 49);
             this.dgvLichSuMuonTra.Name = "dgvLichSuMuonTra";
@@ -396,6 +414,81 @@
             this.dgvLichSuMuonTra.RowTemplate.Height = 24;
             this.dgvLichSuMuonTra.Size = new System.Drawing.Size(915, 329);
             this.dgvLichSuMuonTra.TabIndex = 0;
+            // 
+            // tabPage9
+            // 
+            this.tabPage9.Controls.Add(this.dgvDSMSQH);
+            this.tabPage9.Location = new System.Drawing.Point(4, 25);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage9.Size = new System.Drawing.Size(1058, 426);
+            this.tabPage9.TabIndex = 2;
+            this.tabPage9.Text = "Danh sách mượn sách quá hạn";
+            this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // dgvDSMSQH
+            // 
+            this.dgvDSMSQH.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvDSMSQH.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDSMSQH.Location = new System.Drawing.Point(72, 49);
+            this.dgvDSMSQH.Name = "dgvDSMSQH";
+            this.dgvDSMSQH.RowHeadersWidth = 51;
+            this.dgvDSMSQH.RowTemplate.Height = 24;
+            this.dgvDSMSQH.Size = new System.Drawing.Size(915, 329);
+            this.dgvDSMSQH.TabIndex = 1;
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.dgvTaiKhoan);
+            this.tabPage8.Controls.Add(this.btnXoaUser);
+            this.tabPage8.Controls.Add(this.btnTimKiemUser);
+            this.tabPage8.Controls.Add(this.txtTimKiemUser);
+            this.tabPage8.Location = new System.Drawing.Point(4, 25);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(1150, 481);
+            this.tabPage8.TabIndex = 5;
+            this.tabPage8.Text = "Quản lí tài khoản";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // dgvTaiKhoan
+            // 
+            this.dgvTaiKhoan.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvTaiKhoan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTaiKhoan.Location = new System.Drawing.Point(118, 104);
+            this.dgvTaiKhoan.Name = "dgvTaiKhoan";
+            this.dgvTaiKhoan.RowHeadersWidth = 51;
+            this.dgvTaiKhoan.RowTemplate.Height = 24;
+            this.dgvTaiKhoan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvTaiKhoan.Size = new System.Drawing.Size(946, 349);
+            this.dgvTaiKhoan.TabIndex = 40;
+            // 
+            // btnXoaUser
+            // 
+            this.btnXoaUser.Location = new System.Drawing.Point(582, 32);
+            this.btnXoaUser.Name = "btnXoaUser";
+            this.btnXoaUser.Size = new System.Drawing.Size(154, 52);
+            this.btnXoaUser.TabIndex = 37;
+            this.btnXoaUser.Text = "Xóa người dùng";
+            this.btnXoaUser.UseVisualStyleBackColor = true;
+            this.btnXoaUser.Click += new System.EventHandler(this.btnXoaUser_Click);
+            // 
+            // btnTimKiemUser
+            // 
+            this.btnTimKiemUser.Location = new System.Drawing.Point(314, 32);
+            this.btnTimKiemUser.Name = "btnTimKiemUser";
+            this.btnTimKiemUser.Size = new System.Drawing.Size(154, 52);
+            this.btnTimKiemUser.TabIndex = 34;
+            this.btnTimKiemUser.Text = "Tìm Kiếm";
+            this.btnTimKiemUser.UseVisualStyleBackColor = true;
+            this.btnTimKiemUser.Click += new System.EventHandler(this.btnTimKiemUser_Click);
+            // 
+            // txtTimKiemUser
+            // 
+            this.txtTimKiemUser.Location = new System.Drawing.Point(118, 51);
+            this.txtTimKiemUser.Name = "txtTimKiemUser";
+            this.txtTimKiemUser.Size = new System.Drawing.Size(138, 22);
+            this.txtTimKiemUser.TabIndex = 33;
             // 
             // tabPage4
             // 
@@ -430,6 +523,7 @@
             this.btnDangXuat.TabIndex = 3;
             this.btnDangXuat.Text = "Đăng xuất";
             this.btnDangXuat.UseVisualStyleBackColor = true;
+            this.btnDangXuat.Click += new System.EventHandler(this.btnDangXuat_Click);
             // 
             // btnDoiMatKhau
             // 
@@ -478,6 +572,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDSSDDM)).EndInit();
             this.tabPage7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLichSuMuonTra)).EndInit();
+            this.tabPage9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDSMSQH)).EndInit();
+            this.tabPage8.ResumeLayout(false);
+            this.tabPage8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTaiKhoan)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -522,6 +621,13 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.DataGridView dgvDSSDDM;
         private System.Windows.Forms.DataGridView dgvLichSuMuonTra;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.DataGridView dgvTaiKhoan;
+        private System.Windows.Forms.Button btnXoaUser;
+        private System.Windows.Forms.Button btnTimKiemUser;
+        private System.Windows.Forms.TextBox txtTimKiemUser;
+        private System.Windows.Forms.TabPage tabPage9;
+        private System.Windows.Forms.DataGridView dgvDSMSQH;
     }
 }
 

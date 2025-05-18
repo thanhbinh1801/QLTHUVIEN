@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QLTHUVIEN.BLL;
+using QLTHUVIEN.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,103 +15,130 @@ namespace QLTHUVIEN
 {
     public partial class Themsach : Form
     {
-        private string ID;
-        private ViewAdmin viewAdmin = new ViewAdmin();
-        public Themsach(string id, ViewAdmin va)
+        private readonly BLL_Sach bllSach;
+        private readonly BLL_TheLoai bllTheLoai;
+        private readonly ViewAdmin viewAdmin;
+        private readonly string idSach;
+        private string selectedImagePath;
+
+        public Themsach(string id, ViewAdmin viewAdmin)
         {
             InitializeComponent();
+            bllSach = new BLL_Sach();
+            bllTheLoai = new BLL_TheLoai();
+            this.viewAdmin = viewAdmin;
+            this.idSach = id;
+
             LoadTheLoai();
-            ID = id;
-            viewAdmin = va;
-            GUI();
+            if (!string.IsNullOrEmpty(idSach))
+            {
+                LoadSachForEdit();
+            }
         }
 
-        public void LoadTheLoai()
+        private void LoadTheLoai()
         {
-            QLTV db = new QLTV();
-            List<TheLoai> theloai = new List<TheLoai>();
-            theloai.AddRange(db.theLoais);
+            var theloai = bllTheLoai.GetAll();
             cbbTheLoai.DataSource = theloai;
             cbbTheLoai.DisplayMember = "tentheLoai";
             cbbTheLoai.ValueMember = "IdTheLoai";
         }
 
-        public void GUI()
+        private void LoadSachForEdit()
         {
-            QLTV db = new QLTV();
-            if (string.IsNullOrEmpty(ID)){
-                return;
-            }
-            var sach = db.Sachs.SingleOrDefault( s => s.IdSach.ToString() == ID);
-            string imagePath = Path.Combine(@"E:\DotNet\Image", sach.hinhAnh);
+            var sach = bllSach.GetSachForEdit(int.Parse(idSach));
             if (sach != null)
             {
-                txtTenSach.Text = sach.tenSach;
-                txtTacGia.Text = sach.tacGia;
-                txtNhaXb.Text = sach.nhaXuatBan;
-                txtMoTa.Text = sach.moTa;
-                pictureBoxThemSach.ImageLocation = imagePath;
+                txtTenSach.Text = sach.TenSach;
+                txtTacGia.Text = sach.TacGia;
+                txtNhaXb.Text = sach.NhaXuatBan;
+                txtMoTa.Text = sach.MoTa;
+                cbbTheLoai.SelectedValue = sach.IdTheLoai;
+                txtSoLuong.Text = sach.SoLuong.ToString();
+                selectedImagePath = sach.HinhAnh;
+                if (!string.IsNullOrEmpty(selectedImagePath))
+                {
+                    string fullPath = Path.Combine(@"E:\DotNet\Image", selectedImagePath);
+                    if (File.Exists(fullPath))
+                    {
+                        pictureBoxThemSach.ImageLocation = fullPath;
+                    }
+                }
             }
         }
 
+
         private void btnChonAnh_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Chọn ảnh|*.jpg;*.png";
-            if( ofd.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                pictureBoxThemSach.ImageLocation = ofd.FileName;
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
+                openFileDialog.FilterIndex = 1;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string fileName = Path.GetFileName(openFileDialog.FileName);
+                    string destinationPath = Path.Combine(@"E:\DotNet\Image", fileName);
+
+                    try
+                    {
+                        if (File.Exists(destinationPath))
+                        {
+                            fileName = DateTime.Now.Ticks.ToString() + "_" + fileName;
+                            destinationPath = Path.Combine(@"E:\DotNet\Image", fileName);
+                        }
+
+                        File.Copy(openFileDialog.FileName, destinationPath);
+                        selectedImagePath = fileName;
+                        pictureBoxThemSach.ImageLocation = destinationPath;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi khi chọn ảnh: " + ex.Message);
+                    }
+                }
             }
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            QLTV db = new QLTV();
-            var isExist = db.Sachs.Any(s => s.IdSach.ToString() == ID);
-            if (isExist)
+            if (string.IsNullOrWhiteSpace(txtTenSach.Text))
             {
-                try
-                {
-                    var sach = db.Sachs.SingleOrDefault(s => s.IdSach.ToString() == ID);
-                    sach.tenSach = txtTenSach.Text;
-                    sach.tacGia = txtTacGia.Text;
-                    sach.nhaXuatBan = txtNhaXb.Text;
-                    sach.moTa = txtMoTa.Text;
-                    sach.IdTheLoai = cbbTheLoai.SelectedIndex + 1;
-                    sach.hinhAnh = Path.GetFileName(pictureBoxThemSach.ImageLocation);
-                    db.SaveChanges();
-                    MessageBox.Show("Sửa sách thành công");
-                    this.Close();
-                    viewAdmin.LoadSach();
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show("Lỗi sửa sách: " + ex.Message);
-                }
+                MessageBox.Show("Vui lòng nhập tên sách!");
+                return;
+            }
+
+            var sachDTO = new SachCreateDTO
+            {
+                TenSach = txtTenSach.Text.Trim(),
+                TacGia = txtTacGia.Text.Trim(),
+                MoTa = txtMoTa.Text.Trim(),
+                IdTheLoai = (int)cbbTheLoai.SelectedValue,
+                NhaXuatBan = txtNhaXb.Text.Trim(),
+                SoLuong = int.Parse(txtSoLuong.Text.Trim()),
+                HinhAnh = selectedImagePath
+            };
+
+            bool success;
+            if (string.IsNullOrEmpty(idSach))
+            {
+                success = bllSach.AddSach(sachDTO);
             }
             else
             {
-                try
-                {
-                    Sach sach = new Sach();
-                    sach.tenSach = txtTenSach.Text;
-                    sach.tacGia = txtTacGia.Text;
-                    sach.nhaXuatBan = txtNhaXb.Text;
-                    sach.moTa = txtMoTa.Text;
-                    sach.tinhTrang = TinhTrangSach.coSan;
-                    sach.soLuong = 1;
-                    sach.IdTheLoai = cbbTheLoai.SelectedIndex + 1;
-                    sach.hinhAnh = Path.GetFileName(pictureBoxThemSach.ImageLocation); 
-                    db.Sachs.Add(sach);
-                    db.SaveChanges();
-                    MessageBox.Show("Thêm sách thành công");    
-                    this.Close();
-                    viewAdmin.LoadSach();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi thêm sách: " + ex.InnerException?.InnerException?.Message);
-                }
+                sachDTO.IdSach = int.Parse(idSach);
+                success = bllSach.UpdateSach(sachDTO);
+            }
+
+            if (success)
+            {
+                MessageBox.Show(string.IsNullOrEmpty(idSach) ? "Thêm sách thành công!" : "Cập nhật sách thành công!");
+                viewAdmin.LoadSach();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(string.IsNullOrEmpty(idSach) ? "Thêm sách thất bại!" : "Cập nhật sách thất bại!");
             }
         }
     }

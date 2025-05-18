@@ -41,6 +41,8 @@
             this.pictureBoxThemSach = new System.Windows.Forms.PictureBox();
             this.btnChonAnh = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.txtSoLuong = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxThemSach)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,7 +58,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(64, 115);
+            this.label2.Location = new System.Drawing.Point(64, 114);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 16);
             this.label2.TabIndex = 1;
@@ -65,7 +67,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(64, 175);
+            this.label3.Location = new System.Drawing.Point(64, 170);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(85, 16);
             this.label3.TabIndex = 2;
@@ -74,7 +76,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(64, 229);
+            this.label4.Location = new System.Drawing.Point(64, 225);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 16);
             this.label4.TabIndex = 3;
@@ -83,7 +85,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(64, 292);
+            this.label5.Location = new System.Drawing.Point(64, 333);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(40, 16);
             this.label5.TabIndex = 4;
@@ -98,21 +100,21 @@
             // 
             // txtTacGia
             // 
-            this.txtTacGia.Location = new System.Drawing.Point(210, 115);
+            this.txtTacGia.Location = new System.Drawing.Point(210, 114);
             this.txtTacGia.Name = "txtTacGia";
             this.txtTacGia.Size = new System.Drawing.Size(213, 22);
             this.txtTacGia.TabIndex = 6;
             // 
             // txtNhaXb
             // 
-            this.txtNhaXb.Location = new System.Drawing.Point(210, 175);
+            this.txtNhaXb.Location = new System.Drawing.Point(210, 170);
             this.txtNhaXb.Name = "txtNhaXb";
             this.txtNhaXb.Size = new System.Drawing.Size(213, 22);
             this.txtNhaXb.TabIndex = 7;
             // 
             // txtMoTa
             // 
-            this.txtMoTa.Location = new System.Drawing.Point(210, 292);
+            this.txtMoTa.Location = new System.Drawing.Point(210, 333);
             this.txtMoTa.Multiline = true;
             this.txtMoTa.Name = "txtMoTa";
             this.txtMoTa.Size = new System.Drawing.Size(213, 57);
@@ -121,7 +123,7 @@
             // cbbTheLoai
             // 
             this.cbbTheLoai.FormattingEnabled = true;
-            this.cbbTheLoai.Location = new System.Drawing.Point(210, 229);
+            this.cbbTheLoai.Location = new System.Drawing.Point(210, 225);
             this.cbbTheLoai.Name = "cbbTheLoai";
             this.cbbTheLoai.Size = new System.Drawing.Size(213, 24);
             this.cbbTheLoai.TabIndex = 9;
@@ -130,16 +132,16 @@
             // 
             this.pictureBoxThemSach.Location = new System.Drawing.Point(502, 57);
             this.pictureBoxThemSach.Name = "pictureBoxThemSach";
-            this.pictureBoxThemSach.Size = new System.Drawing.Size(230, 225);
+            this.pictureBoxThemSach.Size = new System.Drawing.Size(230, 240);
             this.pictureBoxThemSach.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxThemSach.TabIndex = 10;
             this.pictureBoxThemSach.TabStop = false;
             // 
             // btnChonAnh
             // 
-            this.btnChonAnh.Location = new System.Drawing.Point(574, 310);
+            this.btnChonAnh.Location = new System.Drawing.Point(561, 333);
             this.btnChonAnh.Name = "btnChonAnh";
-            this.btnChonAnh.Size = new System.Drawing.Size(97, 39);
+            this.btnChonAnh.Size = new System.Drawing.Size(125, 48);
             this.btnChonAnh.TabIndex = 11;
             this.btnChonAnh.Text = "Chọn ảnh";
             this.btnChonAnh.UseVisualStyleBackColor = true;
@@ -147,19 +149,37 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(337, 401);
+            this.btnOK.Location = new System.Drawing.Point(337, 446);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(134, 50);
+            this.btnOK.Size = new System.Drawing.Size(163, 61);
             this.btnOK.TabIndex = 12;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // txtSoLuong
+            // 
+            this.txtSoLuong.Location = new System.Drawing.Point(210, 275);
+            this.txtSoLuong.Name = "txtSoLuong";
+            this.txtSoLuong.Size = new System.Drawing.Size(213, 22);
+            this.txtSoLuong.TabIndex = 14;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(64, 275);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(60, 16);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Số lượng";
+            // 
             // Themsach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 495);
+            this.ClientSize = new System.Drawing.Size(800, 540);
+            this.Controls.Add(this.txtSoLuong);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnChonAnh);
             this.Controls.Add(this.pictureBoxThemSach);
@@ -174,7 +194,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Themsach";
-            this.Text = "Thêm sách";
+            this.Text = "Sách";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxThemSach)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -196,5 +216,7 @@
         private System.Windows.Forms.PictureBox pictureBoxThemSach;
         private System.Windows.Forms.Button btnChonAnh;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.TextBox txtSoLuong;
+        private System.Windows.Forms.Label label6;
     }
 }

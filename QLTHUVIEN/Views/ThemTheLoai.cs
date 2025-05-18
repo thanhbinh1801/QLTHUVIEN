@@ -1,4 +1,6 @@
 ﻿using QLTHUVIEN;
+using QLTHUVIEN.BLL;
+using QLTHUVIEN.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,65 +15,64 @@ namespace QLTHUVIEN.Views
 {
     public partial class ThemTheLoai : Form
     {
-        public string ID;
-        public ThemTheLoai(string id)
+        public string IDTHELOAI;
+        BLL_TheLoai bll = new BLL_TheLoai();
+
+        public ThemTheLoai(string idtheloai)
         {
             InitializeComponent();
-            ID = id;
-            GUI();
+            IDTHELOAI = idtheloai;
+            LoadData();
         }
-        public void GUI()
+
+        public void LoadData()
         {
-            QLTV db = new QLTV();
-            if (string.IsNullOrEmpty(ID))
+            if (string.IsNullOrEmpty(IDTHELOAI))
             {
                 return;
             }
+
             txtIDTL.ReadOnly = true;
-            var theloai = db.theLoais.SingleOrDefault(t => t.IdTheLoai.ToString() == ID);
+            var theloai = bll.GetById(int.Parse(IDTHELOAI));
             if (theloai != null)
             {
                 txtIDTL.Text = theloai.IdTheLoai.ToString();
-                txtTenTL.Text = theloai.tentheLoai;
-
+                txtTenTL.Text = theloai.TenTheLoai;
             }
-
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            QLTV db = new QLTV();
-            bool isExist = db.theLoais.Any(t => t.IdTheLoai.ToString() == ID);
-            if (isExist)
-            {
-                try
-                {
-                    var theloai = db.theLoais.SingleOrDefault(t => t.IdTheLoai.ToString() == ID);
-                    theloai.tentheLoai = txtTenTL.Text;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi sửa thể loại: " + ex.Message);
-                }
+            TheLoaiDTO tl = new TheLoaiDTO();
+            tl.TenTheLoai = txtTenTL.Text;
 
+            bool ok;
+            if (!string.IsNullOrEmpty(IDTHELOAI))
+            {
+                tl.IdTheLoai = int.Parse(IDTHELOAI);
+                ok = bll.UpdateTheLoai(tl);
+                if (ok)
+                {
+                    MessageBox.Show("Sửa thể loại thành công!");
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else MessageBox.Show("Sửa thể loại thất bại!");
             }
             else
             {
-                try
+                if (!string.IsNullOrEmpty(txtIDTL.Text))
                 {
-                    TheLoai tl = new TheLoai()
-                    {
-                        IdTheLoai = Convert.ToInt32(txtIDTL.Text),
-                        tentheLoai = txtTenTL.Text
-                    };
-                    db.theLoais.Add(tl);
-                    db.SaveChanges();
-                    MessageBox.Show("Thêm thể loại thành công");
+                    tl.IdTheLoai = int.Parse(txtIDTL.Text);
                 }
-                catch (Exception ex)
+                ok = bll.AddTheLoai(tl);
+                if (ok)
                 {
-                    MessageBox.Show("Lỗi thêm thể loại: " + ex.Message);
+                    MessageBox.Show("Thêm thể loại thành công!");
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
+                else MessageBox.Show("Thêm thể loại thất bại!");
             }
         }
     }

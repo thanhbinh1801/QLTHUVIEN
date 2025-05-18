@@ -1,4 +1,4 @@
-﻿namespace PBL3
+﻿namespace QLTHUVIEN
 {
     partial class Dangki
     {

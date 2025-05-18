@@ -1,4 +1,5 @@
 ﻿using QLTHUVIEN.Utils;
+using QLTHUVIEN.BLL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,17 +10,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QLTHUVIEN.DTO;
 
 namespace QLTHUVIEN
 {
     public partial class ViewUser : Form
     {
         public int IDNGUOIDUNG;
-        QLTV db = new QLTV();
+        private readonly BLL_Sach bllSach;
+        private readonly BLL_NguoiDung bllNguoiDung;
+        private readonly BLL_MuonSach bllMuonSach;
+
         public ViewUser(int idnguoidung)
         {
             InitializeComponent();
             IDNGUOIDUNG = idnguoidung;
+            bllSach = new BLL_Sach();
+            bllNguoiDung = new BLL_NguoiDung();
+            bllMuonSach = new BLL_MuonSach();
             loadTenNguoiDung();
             LoadSach();
             LichSuMuonSach();
@@ -27,108 +35,160 @@ namespace QLTHUVIEN
 
         public void LoadSach()
         {
-            dgvSach.CellFormatting -= dgvSach_CellFormatting;
-
-            QLTV db = new QLTV();
-
             string tukhoa = txtTimKiemSach.Text.Trim().ToLower();
-            var l1 = db.Sachs.Where(s => string.IsNullOrEmpty(tukhoa) || s.tenSach.ToLower().Contains(tukhoa))
-                .Select(s => new
-                {
-                    s.IdSach,
-                    s.tenSach,
-                    s.tacGia,
-                    s.nhaXuatBan,
-                    s.moTa,
-                    tinhTrang = s.tinhTrang.ToString(),
-                    s.theLoai.tentheLoai,
-                    s.soLuong,
-                    image = s.hinhAnh
-                }).ToList();
-            dgvSach.DataSource = null;
-            dgvSach.DataSource = l1;
+            var sachList = bllSach.GetSachCoTheChoMuon(tukhoa);
 
-            dgvSach.Columns["IdSach"].Visible = false;
-            dgvSach.Columns["tenSach"].HeaderText = "Tên Sách";
-            dgvSach.Columns["tacGia"].HeaderText = "Tác Giả";
-            dgvSach.Columns["nhaXuatBan"].HeaderText = "Nhà Xuất Bản";
-            dgvSach.Columns["moTa"].HeaderText = "Mô Tả";
-            dgvSach.Columns["tinhTrang"].HeaderText = "Tình Trạng";
-            dgvSach.Columns["tentheLoai"].HeaderText = "Thể Loại";
-            dgvSach.Columns["soLuong"].HeaderText = "Số Lượng";
-            dgvSach.Columns["image"].Visible = false;
-
-
-            if (!dgvSach.Columns.Contains("hinhanh"))
+            foreach (var sach in sachList)
             {
-                DataGridViewImageColumn dgvic = new DataGridViewImageColumn();
-                dgvic.Name = "hinhanh";
-                dgvic.HeaderText = "Hình Ảnh";
-                dgvic.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                dgvSach.Columns.Add(dgvic);
-            }
-            dgvSach.Columns["hinhanh"].DisplayIndex = dgvSach.Columns.Count - 1;
-            dgvSach.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dgvSach.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-            dgvSach.CellFormatting += dgvSach_CellFormatting;
-        }
-
-        private void dgvSach_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dgvSach.Columns[e.ColumnIndex].Name == "hinhanh" && e.RowIndex >= 0)
-            {
-                if (e.Value != null && e.Value is Image)
-                    return;
-                try
+                if (!string.IsNullOrEmpty(sach.HinhAnhPath))
                 {
-                    string imagePath = Path.Combine(@"E:\DotNet\Image", dgvSach.Rows[e.RowIndex].Cells["image"].Value.ToString());
+                    string imagePath = Path.Combine(@"E:\DotNet\Image", sach.HinhAnhPath);
                     if (File.Exists(imagePath))
                     {
-                        using (Image img = Image.FromFile(imagePath))
+                        try
                         {
-                            e.Value = new Bitmap(img); 
+                            sach.HinhAnh = Image.FromFile(imagePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Lỗi khi tải hình ảnh: " + ex.Message);
+                            sach.HinhAnh = null;
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Lỗi khi tải hình ảnh: " + ex.Message);
-                }
             }
+            ConfigureDataGridView(sachList);
         }
+        private void ConfigureDataGridView(List<SachDTO> sachList)
+        {
+            dgvSach.AutoGenerateColumns = false;
+            dgvSach.Columns.Clear();
+            dgvSach.RowTemplate.Height = 150;
 
+            DataGridViewTextBoxColumn colIdSach = new DataGridViewTextBoxColumn();
+            colIdSach.Name = "IdSach";
+            colIdSach.HeaderText = "ID Sách";
+            colIdSach.DataPropertyName = "IdSach";
+            colIdSach.Visible = false;
+            dgvSach.Columns.Add(colIdSach);
 
+            DataGridViewTextBoxColumn colTenSach = new DataGridViewTextBoxColumn();
+            colTenSach.Name = "TenSach";
+            colTenSach.HeaderText = "Tên Sách";
+            colTenSach.DataPropertyName = "TenSach";
+            dgvSach.Columns.Add(colTenSach);
+
+            DataGridViewTextBoxColumn colTacGia = new DataGridViewTextBoxColumn();
+            colTacGia.Name = "TacGia";
+            colTacGia.HeaderText = "Tác Giả";
+            colTacGia.DataPropertyName = "TacGia";
+            dgvSach.Columns.Add(colTacGia);
+
+            DataGridViewTextBoxColumn colNXB = new DataGridViewTextBoxColumn();
+            colNXB.Name = "NhaXuatBan";
+            colNXB.HeaderText = "Nhà Xuất Bản";
+            colNXB.DataPropertyName = "NhaXuatBan";
+            dgvSach.Columns.Add(colNXB);
+
+            DataGridViewTextBoxColumn colMoTa = new DataGridViewTextBoxColumn();
+            colMoTa.Name = "MoTa";
+            colMoTa.HeaderText = "Mô Tả";
+            colMoTa.DataPropertyName = "MoTa";
+            dgvSach.Columns.Add(colMoTa);
+
+            DataGridViewTextBoxColumn colTinhTrang = new DataGridViewTextBoxColumn();
+            colTinhTrang.Name = "TinhTrangText";
+            colTinhTrang.HeaderText = "Tình Trạng";
+            colTinhTrang.DataPropertyName = "TinhTrang";
+            dgvSach.Columns.Add(colTinhTrang);
+
+            DataGridViewTextBoxColumn colTheLoai = new DataGridViewTextBoxColumn();
+            colTheLoai.Name = "TheLoai";
+            colTheLoai.HeaderText = "Thể Loại";
+            colTheLoai.DataPropertyName = "TheLoai";
+            dgvSach.Columns.Add(colTheLoai);
+
+            DataGridViewTextBoxColumn colSoLuong = new DataGridViewTextBoxColumn();
+            colSoLuong.Name = "SoLuong";
+            colSoLuong.HeaderText = "Số Lượng";
+            colSoLuong.DataPropertyName = "SoLuong";
+            dgvSach.Columns.Add(colSoLuong);
+
+            DataGridViewTextBoxColumn colHinhAnh = new DataGridViewTextBoxColumn();
+            colHinhAnh.Name = "HinhAnhPath";
+            colHinhAnh.Visible = false;
+            colHinhAnh.DataPropertyName = "HinhAnhPath";
+            dgvSach.Columns.Add(colHinhAnh);
+
+            DataGridViewImageColumn colHinhAnhHienThi = new DataGridViewImageColumn();
+            colHinhAnhHienThi.Name = "hinhanh";
+            colHinhAnhHienThi.HeaderText = "Hình Ảnh";
+            colHinhAnhHienThi.DataPropertyName = "HinhAnh";
+            colHinhAnhHienThi.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            dgvSach.Columns.Add(colHinhAnhHienThi);
+
+            dgvSach.DataSource = sachList;
+
+            dgvSach.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+        }
         private void btnMuonSach_Click(object sender, EventArgs e)
         {
             int idsach = Convert.ToInt32(dgvSach.SelectedRows[0].Cells["IdSach"].Value.ToString());
             MuonsachForm muonsachForm = new MuonsachForm(idsach, IDNGUOIDUNG);
             muonsachForm.ShowDialog();
+            LoadSach();
+            LichSuMuonSach();
+        }
+        private void btnTraSach_Click(object sender, EventArgs e)
+        {
+            if (bllMuonSach.TraSach(dgvLSMuonSach.SelectedRows[0].Cells["TenSach"].Value.ToString()))
+            {
+                MessageBox.Show("Trả sách thành công!");
+                LichSuMuonSach();
+            }
+            else
+            {
+                MessageBox.Show("Trả sách thất bại!");
+            }
         }
 
         public void loadTenNguoiDung()
         {
-            var nguoidung = db.nguoiDungs.SingleOrDefault(n => n.IdNguoiDung == IDNGUOIDUNG);
-            lbNguoiDung.Text = nguoidung.tenNguoiDung;
-            txtFullName.Text = nguoidung.tenNguoiDung;
+            var nguoidung = bllNguoiDung.LayThongTinNguoiDung( null, IDNGUOIDUNG);
+            if (nguoidung != null)
+            {
+                lbNguoiDung.Text = nguoidung.tenNguoiDung;
+                txtFullName.Text = nguoidung.tenNguoiDung;
+            }
         }
 
         public void LichSuMuonSach()
         {
-            var l1 = db.muonSachs.Where(s => s.IdNguoiDung == IDNGUOIDUNG).Select(s => new
-            {
-                s.IdMuonSach,
-                s.sach.tenSach,
-                s.ngayMuon,
-                s.ngayTra,
-                s.tinhTrangMuon
-            }).ToList();
-            dgvLSMuonSach.DataSource = l1;
+            var lichsu = bllMuonSach.GetLichSuMuonTra(IDNGUOIDUNG);
+            dgvLSMuonSach.DataSource = lichsu;
+
+            dgvLSMuonSach.Columns["TenSach"].HeaderText = "Tên sách";
+            dgvLSMuonSach.Columns["NgayMuon"].HeaderText = "Ngày mượn";
+            dgvLSMuonSach.Columns["NgayTra"].HeaderText = "Ngày trả";
+            dgvLSMuonSach.Columns["TinhTrang"].HeaderText = "Tình trạng mượn";
         }
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
             LoadSach();
+        }
+
+        private void btnDangXuat_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Dangnhap dangnhap = new Dangnhap();
+            dangnhap.ShowDialog();
+        }
+
+        private void btnDoiMatKhau_Click(object sender, EventArgs e)
+        {
+            Doimatkhau doimatkhau = new Doimatkhau(IDNGUOIDUNG);
+            doimatkhau.ShowDialog();
         }
     }
 }

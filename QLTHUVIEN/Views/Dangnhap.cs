@@ -1,55 +1,60 @@
-﻿using QLTHUVIEN;
-using QLTHUVIEN.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
+using QLTHUVIEN.BLL;
 
-namespace PBL3
+namespace QLTHUVIEN
 {
     public partial class Dangnhap : Form
     {
+        private BLL_NguoiDung bllNguoiDung;
+
         public Dangnhap()
         {
             InitializeComponent();
+            bllNguoiDung = new BLL_NguoiDung();
+            txtMK.PasswordChar = '*';
         }
 
-        private void btn_dangnhap_Click(object sender, EventArgs e)
+        private void btnDangNhap_Click_1(object sender, EventArgs e)
         {
-            var db = new QLTV();
-            var user = db.nguoiDungs.Where( p => p.tenTK == txtTenTK.Text).FirstOrDefault();
-            if(user == null)
+            string username = txtTenTK.Text;
+            string password = txtMK.Text;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Tài khoản không tồn tại!");
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
                 return;
             }
-            if( HashPassword.VerifyPW(txtMK.Text, user.matKhau))
+
+            if (bllNguoiDung.KiemTraDangNhap(username, password))
             {
-                this.Hide();
-                if(user.phanQuyen == PhanQuyenNguoiDung.nguoiSoHuu)
+                var user = bllNguoiDung.LayThongTinNguoiDung(username, 0);
+                if (user.phanQuyen == PhanQuyenNguoiDung.nguoiSoHuu)
                 {
-                    new ViewAdmin().ShowDialog();
-                } else
-                {
-                    new ViewUser(user.IdNguoiDung).ShowDialog();
+                    ViewAdmin viewAdmin = new ViewAdmin(user.IdNguoiDung);
+                    this.Hide();
+                    viewAdmin.ShowDialog();
                 }
+                else
+                {
+                    ViewUser viewUser = new ViewUser(user.IdNguoiDung);
+                    this.Hide();
+                    viewUser.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Sai tài khoản hoặc mật khẩu!");
             }
         }
 
         private void llbDangKi_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            Dangki dangki = new Dangki();
             this.Hide();
-            new Dangki().ShowDialog();
+            dangki.ShowDialog();
+            this.Show();
         }
 
-        private void llbQuenMK_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            new Doimatkhau().ShowDialog();
-        }
     }
 }

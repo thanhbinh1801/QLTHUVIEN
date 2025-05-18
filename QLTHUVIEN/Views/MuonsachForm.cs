@@ -1,32 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using QLTHUVIEN.BLL;
 
 namespace QLTHUVIEN
 {
     public partial class MuonsachForm : Form
     {
-        private int IDSACH;
-        private int IDNGUOIDUNG;
-        private ViewUser viewUser;
-        public MuonsachForm(int idsach, int idnguoidung)
+        private readonly int IDSACH;
+        private readonly int IDNGUOIDUNG;
+        private readonly BLL_MuonSach _bllMuonSach;
+        private readonly BLL_Sach _bllSach;
+
+        public MuonsachForm(int idSach, int idNguoiDung)
         {
             InitializeComponent();
-            IDSACH = idsach;
-            IDNGUOIDUNG = idnguoidung;
+            IDSACH = idSach;
+            IDNGUOIDUNG = idNguoiDung;
+            _bllMuonSach = new BLL_MuonSach();
+            _bllSach = new BLL_Sach();
             GUI();
         }
+
         public void GUI()
         {
-            QLTV db = new QLTV();
-            var sach = db.Sachs.SingleOrDefault(s => s.IdSach == IDSACH);
+            var sach = _bllSach.GetSachById(IDSACH);
+            txtTenSach.Enabled = false;
+            dtpNgayMuon.Enabled = false;
             string imagePath = Path.Combine(@"E:\DotNet\Image", sach.hinhAnh);
             if (sach != null)
             {
@@ -37,28 +37,27 @@ namespace QLTHUVIEN
 
         private void btnXacNhan_Click(object sender, EventArgs e)
         {
+            if (dtpNgayMuon.Value > dtpNgayTra.Value)
+            {
+                MessageBox.Show("Ngày mượn không được lớn hơn ngày trả.");
+                return;
+            }
             try
             {
-                QLTV db = new QLTV();
-                MuonSach muonSach = new MuonSach()
+                bool result = _bllMuonSach.MuonSach(IDNGUOIDUNG, IDSACH, dtpNgayMuon.Value, dtpNgayTra.Value);
+                if (result)
                 {
-                    IdSach = IDSACH,
-                    IdNguoiDung = IDNGUOIDUNG,
-                    ngayMuon = dtpNgayMuon.Value,
-                    ngayTra = dtpNgayTra.Value,
-                    tinhTrangMuon = TinhTrangMuon.dangMuon
-                };
-                db.muonSachs.Add(muonSach);
-                db.SaveChanges();
-                MessageBox.Show("Mượn sách thành công");
-                this.Close();
-
+                    MessageBox.Show("Mượn sách thành công");
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Không thể mượn sách vì đã mượn hơn 3 quyển");
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                //MessageBox.Show("Lỗi: " + ex.Message);
-                MessageBox.Show("Lỗi: " + ex.InnerException?.InnerException?.Message ?? ex.Message);
-
+                MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
     }

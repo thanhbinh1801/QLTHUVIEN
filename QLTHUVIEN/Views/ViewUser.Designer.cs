@@ -35,6 +35,7 @@
             this.btnDoiMatKhau = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnTraSach = new System.Windows.Forms.Button();
             this.dgvLSMuonSach = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
@@ -78,9 +79,10 @@
             // 
             // txtFullName
             // 
-            this.txtFullName.Location = new System.Drawing.Point(569, 274);
+            this.txtFullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFullName.Location = new System.Drawing.Point(566, 264);
             this.txtFullName.Name = "txtFullName";
-            this.txtFullName.Size = new System.Drawing.Size(197, 22);
+            this.txtFullName.Size = new System.Drawing.Size(302, 38);
             this.txtFullName.TabIndex = 11;
             // 
             // lbUser
@@ -102,6 +104,7 @@
             this.btnDangXuat.TabIndex = 3;
             this.btnDangXuat.Text = "Đăng xuất";
             this.btnDangXuat.UseVisualStyleBackColor = true;
+            this.btnDangXuat.Click += new System.EventHandler(this.btnDangXuat_Click);
             // 
             // btnDoiMatKhau
             // 
@@ -112,20 +115,22 @@
             this.btnDoiMatKhau.TabIndex = 2;
             this.btnDoiMatKhau.Text = "Đổi mật khẩu";
             this.btnDoiMatKhau.UseVisualStyleBackColor = true;
+            this.btnDoiMatKhau.Click += new System.EventHandler(this.btnDoiMatKhau_Click);
             // 
             // pictureBox1
             // 
             this.pictureBox1.ErrorImage = null;
             this.pictureBox1.ImageLocation = "E:\\DotNet\\Image\\user.jpg";
-            this.pictureBox1.Location = new System.Drawing.Point(443, 33);
+            this.pictureBox1.Location = new System.Drawing.Point(449, 35);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(251, 180);
+            this.pictureBox1.Size = new System.Drawing.Size(236, 203);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btnTraSach);
             this.tabPage3.Controls.Add(this.dgvLSMuonSach);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
@@ -135,10 +140,21 @@
             this.tabPage3.Text = "Lịch sử mượn sách";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // btnTraSach
+            // 
+            this.btnTraSach.Location = new System.Drawing.Point(43, 24);
+            this.btnTraSach.Name = "btnTraSach";
+            this.btnTraSach.Size = new System.Drawing.Size(126, 39);
+            this.btnTraSach.TabIndex = 1;
+            this.btnTraSach.Text = "Trả sách";
+            this.btnTraSach.UseVisualStyleBackColor = true;
+            this.btnTraSach.Click += new System.EventHandler(this.btnTraSach_Click);
+            // 
             // dgvLSMuonSach
             // 
+            this.dgvLSMuonSach.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvLSMuonSach.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvLSMuonSach.Location = new System.Drawing.Point(53, 80);
+            this.dgvLSMuonSach.Location = new System.Drawing.Point(43, 88);
             this.dgvLSMuonSach.Name = "dgvLSMuonSach";
             this.dgvLSMuonSach.RowHeadersWidth = 51;
             this.dgvLSMuonSach.RowTemplate.Height = 24;
@@ -219,7 +235,6 @@
             this.dgvSach.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSach.Size = new System.Drawing.Size(1018, 333);
             this.dgvSach.TabIndex = 27;
-            this.dgvSach.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvSach_CellFormatting);
             // 
             // tabPage1
             // 
@@ -346,5 +361,6 @@
         private System.Windows.Forms.TabControl Sách;
         private System.Windows.Forms.DataGridView dgvLSMuonSach;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.Button btnTraSach;
     }
 }

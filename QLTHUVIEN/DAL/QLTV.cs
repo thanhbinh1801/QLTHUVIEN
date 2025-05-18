@@ -2,7 +2,7 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 
-namespace QLTHUVIEN
+namespace QLTHUVIEN.DAL
 {
     public class QLTV : DbContext
     {

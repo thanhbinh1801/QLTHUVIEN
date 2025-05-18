@@ -1,52 +1,41 @@
-﻿using QLTHUVIEN;
-using QLTHUVIEN.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
+using QLTHUVIEN.BLL;
 
-namespace PBL3
+namespace QLTHUVIEN
 {
     public partial class Dangki : Form
     {
-        CheckInput vd = new CheckInput();
+        private BLL_NguoiDung bllNguoiDung;
+
         public Dangki()
         {
             InitializeComponent();
+            bllNguoiDung = new BLL_NguoiDung();
+            txtMK.PasswordChar = '*';
         }
 
         private void btnDKi_Click(object sender, EventArgs e)
         {
-            if (vd.checkHVT(txtHVT.Text) && vd.checkTenTK(txtTenTK.Text) && vd.checkMK(txtMK.Text))
+            string username = txtTenTK.Text;
+            string password = txtMK.Text;
+            string fullName = txtHVT.Text;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                try
-                {
-                    var db = new QLTV();
-                    NguoiDung nguoiDung = new NguoiDung()
-                    {
-                        tenNguoiDung = txtHVT.Text,
-                        tenTK = txtTenTK.Text,
-                        matKhau = HashPassword.HashPW(txtMK.Text),
-                        phanQuyen = PhanQuyenNguoiDung.nguoiMuon
-                    };
-                    db.nguoiDungs.Add(nguoiDung);
-                    db.SaveChanges();
-                    MessageBox.Show("Đăng kí thành công");
-                    this.Hide();
-                    new Dangnhap().ShowDialog();
-                }
-                catch (Exception err)
-                {
-                    MessageBox.Show("Đăng kí không thành công" + err.Message);
-                }
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            if (bllNguoiDung.DangKyTaiKhoan(username, password, fullName))
+            {
+                MessageBox.Show("Đăng ký thành công!");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Tên đăng nhập đã tồn tại!");
             }
         }
-
     }
 }

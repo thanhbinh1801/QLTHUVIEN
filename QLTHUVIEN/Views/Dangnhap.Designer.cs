@@ -1,4 +1,4 @@
-﻿namespace PBL3
+﻿namespace QLTHUVIEN
 {
     partial class Dangnhap
     {
@@ -32,12 +32,11 @@
             this.txtTenTK = new System.Windows.Forms.TextBox();
             this.txtMK = new System.Windows.Forms.TextBox();
             this.btnDangNhap = new System.Windows.Forms.Button();
-            this.llbQuenMK = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
-            this.llbDangKi = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.llbDangKi = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,19 +77,7 @@
             this.btnDangNhap.TabIndex = 5;
             this.btnDangNhap.Text = "Đăng nhập";
             this.btnDangNhap.UseVisualStyleBackColor = true;
-            this.btnDangNhap.Click += new System.EventHandler(this.btn_dangnhap_Click);
-            // 
-            // llbQuenMK
-            // 
-            this.llbQuenMK.AutoSize = true;
-            this.llbQuenMK.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llbQuenMK.Location = new System.Drawing.Point(703, 264);
-            this.llbQuenMK.Name = "llbQuenMK";
-            this.llbQuenMK.Size = new System.Drawing.Size(131, 20);
-            this.llbQuenMK.TabIndex = 6;
-            this.llbQuenMK.TabStop = true;
-            this.llbQuenMK.Text = "Quên mật khẩu?";
-            this.llbQuenMK.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbQuenMK_LinkClicked);
+            this.btnDangNhap.Click += new System.EventHandler(this.btnDangNhap_Click_1);
             // 
             // label1
             // 
@@ -101,18 +88,6 @@
             this.label1.Size = new System.Drawing.Size(184, 20);
             this.label1.TabIndex = 7;
             this.label1.Text = "Bạn chưa có tài khoản?";
-            // 
-            // llbDangKi
-            // 
-            this.llbDangKi.AutoSize = true;
-            this.llbDangKi.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llbDangKi.Location = new System.Drawing.Point(665, 435);
-            this.llbDangKi.Name = "llbDangKi";
-            this.llbDangKi.Size = new System.Drawing.Size(70, 20);
-            this.llbDangKi.TabIndex = 8;
-            this.llbDangKi.TabStop = true;
-            this.llbDangKi.Text = "Đăng kí ";
-            this.llbDangKi.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbDangKi_LinkClicked);
             // 
             // pictureBox1
             // 
@@ -145,6 +120,18 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Mật khẩu";
             // 
+            // llbDangKi
+            // 
+            this.llbDangKi.AutoSize = true;
+            this.llbDangKi.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llbDangKi.Location = new System.Drawing.Point(665, 435);
+            this.llbDangKi.Name = "llbDangKi";
+            this.llbDangKi.Size = new System.Drawing.Size(70, 20);
+            this.llbDangKi.TabIndex = 8;
+            this.llbDangKi.TabStop = true;
+            this.llbDangKi.Text = "Đăng kí ";
+            this.llbDangKi.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbDangKi_LinkClicked);
+            // 
             // Dangnhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -155,7 +142,6 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.llbDangKi);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.llbQuenMK);
             this.Controls.Add(this.btnDangNhap);
             this.Controls.Add(this.txtMK);
             this.Controls.Add(this.txtTenTK);
@@ -174,12 +160,11 @@
         private System.Windows.Forms.TextBox txtTenTK;
         private System.Windows.Forms.TextBox txtMK;
         private System.Windows.Forms.Button btnDangNhap;
-        private System.Windows.Forms.LinkLabel llbQuenMK;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.LinkLabel llbDangKi;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.LinkLabel llbDangKi;
     }
 }
 
